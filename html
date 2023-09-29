@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kanban Board</title>
+    <style>
+        /* Add your CSS styles for the Kanban board here */
+        /* You can style columns, cards, etc. */
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="column" id="todo">
+            <h2>To Do</h2>
+            <div class="task">
+                <div class="task-title">Task 1</div>
+                <div class="task-description">Description for Task 1</div>
+            </div>
+            <!-- Add more tasks here -->
+        </div>
+        <div class="column" id="doing">
+            <h2>Doing</h2>
+            <!-- Tasks in the "Doing" column go here -->
+        </div>
+        <div class="column" id="done">
+            <h2>Done</h2>
+            <!-- Tasks in the "Done" column go here -->
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript logic for dragging and dropping tasks
+        const tasks = document.querySelectorAll('.task');
+
+        tasks.forEach(task => {
+            task.draggable = true;
+            task.addEventListener('dragstart', handleDragStart);
+            task.addEventListener('dragover', handleDragOver);
+            task.addEventListener('drop', handleDrop);
+        });
+
+        function handleDragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.id);
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const taskId = event.dataTransfer.getData('text/plain');
+            const targetColumnId = event.target.closest('.column').id;
+            const targetColumn = document.getElementById(targetColumnId);
+
+            const task = document.getElementById(taskId);
+            targetColumn.appendChild(task);
+        }
+    </script>
+</body>
+</html>
